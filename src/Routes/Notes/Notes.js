@@ -34,6 +34,18 @@ const Subtitle = styled.h2`
   font-weight: 400;
 `;
 
+const Note = styled.div`
+  padding: 10px;
+  padding-left: 5px;
+  transition: background-color 0.1s linear;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  &:hover {
+    background-color: #eeeeee;
+  }
+`;
+
 class Notes extends Component {
   render() {
     return (
@@ -53,8 +65,8 @@ class Notes extends Component {
           {({ data }) =>
             data.notes
               ? data.notes.map(note => (
-                <Link to={`edit/${note.id}`} key={note.id}>
-                  {note.title}
+                <Link to={`/note/${note.id}`} key={note.id}>
+                  <Note>{note.title}</Note>
                 </Link>
               ))
               : null
