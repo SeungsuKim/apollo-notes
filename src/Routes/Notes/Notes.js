@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from "react";
 import { Query } from "react-apollo";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { ReactComponent as Plus } from "../../Components/plus.svg";
 import styled from "styled-components";
-import { GET_NOTES } from '../../queries';
+import { GET_NOTES } from "../../queries";
 
 const Header = styled.div`
   margin-bottom: 50px;
@@ -26,12 +26,18 @@ const Button = styled.div`
   align-items: center;
   padding: 10px;
   border-radius: 10px;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 const Subtitle = styled.h2`
   color: #a2a19e;
   font-weight: 400;
+`;
+
+const Notes = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 const Note = styled.div`
@@ -46,13 +52,19 @@ const Note = styled.div`
   }
 `;
 
-class Notes extends Component {
+const NoteTitle = styled.span`
+  padding-bottom: 5px;
+  font-weight: 600;
+  font-size: 20px;
+`;
+
+export default class NotesContainer extends React.Component {
   render() {
     return (
       <>
         <Header>
           <Title>
-            Apollo Notes
+            Nomad Notes
             <Link to={"/add"}>
               <Button>
                 <Plus />
@@ -61,20 +73,22 @@ class Notes extends Component {
           </Title>
           <Subtitle>Taking notes while we learn.</Subtitle>
         </Header>
-        <Query query={GET_NOTES}>
-          {({ data }) =>
-            data.notes
-              ? data.notes.map(note => (
-                <Link to={`/note/${note.id}`} key={note.id}>
-                  <Note>{note.title}</Note>
-                </Link>
-              ))
-              : null
-          }
-        </Query>
+        <Notes>
+          <Query query={GET_NOTES}>
+            {({ data }) =>
+              data.notes
+                ? data.notes.map(note => (
+                  <Link to={`/note/${note.id}`} key={note.id}>
+                    <Note>
+                      <NoteTitle>{note.title}</NoteTitle>
+                    </Note>
+                  </Link>
+                ))
+                : null
+            }
+          </Query>
+        </Notes>
       </>
     );
   }
 }
-
-export default Notes;
